@@ -118,7 +118,6 @@ def train(x_train, y_train):
     train_model = GaussianNB()
     clf = train_model.fit(x_train, y_train);
     
-    
     # ===================== PLEASE WRITE HERE =====================    
         
     return clf
@@ -132,7 +131,6 @@ def test(clf, x_test):
     """
     # ===================== PLEASE WRITE HERE =====================
     y_pred = clf.predict(x_test)
-    
     
     # ===================== PLEASE WRITE HERE =====================
     
