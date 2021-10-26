@@ -11,21 +11,19 @@ can this script achieve or solve, what algorithms are used in this script...
 
 # Import libraries
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 
-
 # Load data file and return two numpy arrays, including x: features and 
 # y: labels
 def load_data(path):
     print('Load data.')
-    """
-    - Read dataset description 'wine.names' in the first place to know how the 
-    given data is arranged.
-    - Use the function 'numpy.genfromtxt' to load the data.
-    """
+    
+    np.genfromtxt("wine.data")
+    
     data = np.genfromtxt(path, delimiter=',')
         
     # Print the number of samples
@@ -49,8 +47,7 @@ def class_distribution(y):
     function 'numpy.bincount'.
     """    
     # ===================== PLEASE WRITE HERE =====================
-    
-    
+    n_class0, n_class1, n_class2, n_class3 = np.bincount(y)
     
     # ===================== PLEASE WRITE HERE =====================
        
@@ -74,8 +71,8 @@ def split_dataset(x, y, testset_portion):
     'sklearn.model_selection.train_test_split'.    
     """
     # ===================== PLEASE WRITE HERE =====================
-    
-    
+    x_train, x_test = train_test_split(x, test_size=testset_portion, random_state=42)
+    y_train, y_test = train_test_split(y, test_size=testset_portion, random_state=42)
     
     # ===================== PLEASE WRITE HERE =====================
     
@@ -97,9 +94,11 @@ def feature_scaling(x_train, x_test):
     function 'sklearn.preprocessing.StandardScaler'.    
     """
     # ===================== PLEASE WRITE HERE =====================
+    scaler = StandardScaler().fit(x_train)
+    x_train_nor = scaler.transform(x_train)
     
-    
-    
+    scaler = StandardScaler().fit(x_test)
+    x_test_nor  = scaler.transform(x_test)
     # ===================== PLEASE WRITE HERE =====================    
 
     return x_train_nor, x_test_nor
@@ -116,7 +115,8 @@ def train(x_train, y_train):
     classifier.    
     """    
     # ===================== PLEASE WRITE HERE =====================
-    
+    train_model = GaussianNB()
+    clf = train_model.fit(x_train, y_train);
     
     
     # ===================== PLEASE WRITE HERE =====================    
@@ -131,7 +131,7 @@ def test(clf, x_test):
     - Likewise, please the function 'sklearn.naive_bayes.GaussianNB'.
     """
     # ===================== PLEASE WRITE HERE =====================
-    
+    y_pred = clf.predict(x_test)
     
     
     # ===================== PLEASE WRITE HERE =====================
@@ -142,22 +142,36 @@ def test(clf, x_test):
 
 # Main
 if __name__=='__main__':
-    # Some parameters
-    path = 'wine.data'
-    testset_portion = 0.2
     
-    # Load data
-    data, x, y = load_data(path)
-    class_distribution(y)
+    accuracy = []
+    # testset_rate = [0.2, 0.5, 0.8, 0.9, 0.98]
+    testset_rate = [0.2]
     
-    # Preprocessing
-    x_train, x_test, y_train, y_test = split_dataset(x, y, testset_portion)
-    x_train_nor, x_test_nor = feature_scaling(x_train, x_test)
+    for rate in testset_rate:
+        testset_portion = rate
+        # Some parameters
+        path = 'wine.data'
+        # testset_portion = 0.2
+        
+        # Load data
+        data, x, y = load_data(path)
+        class_distribution(y)
+        
+        # Preprocessing
+        x_train, x_test, y_train, y_test = split_dataset(x, y, testset_portion)
+        x_train_nor, x_test_nor = feature_scaling(x_train, x_test)
+        
+        # Classification: train and test
+        clf = train(x_train_nor, y_train)
+        y_pred = test(clf, x_test_nor)
+        
+        # Accuracy
+        acc = accuracy_score(y_test, y_pred)
+        accuracy.append(acc)
+        print('\nAccuracy:', round(acc, 3))
     
-    # Classification: train and test
-    clf = train(x_train, y_train)
-    y_pred = test(clf, x_test)
-    
-    # Accuracy
-    acc = accuracy_score(y_test, y_pred)
-    print('\nAccuracy:', round(acc, 3))
+    # plt.plot(testset_rate, accuracy)
+    # plt.xlabel('testset_portion')  
+    # plt.ylabel('accuracy')                 
+    # plt.savefig('plot.png')
+    # plt.show()     
