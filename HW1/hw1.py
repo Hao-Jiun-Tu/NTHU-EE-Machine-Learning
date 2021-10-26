@@ -1,10 +1,17 @@
 """
 ===================== PLEASE WRITE HERE =====================
-- The title of this script.
-- A brief explanation of this script, e.g. the purpose of this script, what 
-can this script achieve or solve, what algorithms are used in this script...
+- Intro to ML HW1
+- This homework will learn the basic guideline of how to use 
+  ML toolkit (SK-learn) in Python. (From class distribution, 
+  splitting dataset, feature scaling, dataset training and
+  testing) In implementation, we will learn what factors 
+  would take effect on the performance of the model: 
+  
+  1. the randomness of splitting training data & testing data 
+  2. the portion of training data & testing data
 
-- The name of author and the created date of this script.
+- Name: Jason Hao-Jiun Tu
+- Date: 2021/10/26 
 ===================== PLEASE WRITE HERE =====================
 """
 
