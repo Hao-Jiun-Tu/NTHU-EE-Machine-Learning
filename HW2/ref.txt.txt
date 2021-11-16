@@ -1,0 +1,5 @@
+https://rpubs.com/skydome20/R-Note14-SVM-SVR
+
+https://ithelp.ithome.com.tw/articles/10196239
+
+https://chih-sheng-huang821.medium.com/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92-kernel-%E5%87%BD%E6%95%B8-47c94095171
