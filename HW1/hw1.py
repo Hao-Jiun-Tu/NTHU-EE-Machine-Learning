@@ -123,7 +123,7 @@ def train(x_train, y_train):
     """    
     # ===================== PLEASE WRITE HERE =====================
     train_model = GaussianNB()
-    clf = train_model.fit(x_train, y_train);
+    clf = train_model.fit(x_train, y_train)
     
     # ===================== PLEASE WRITE HERE =====================    
         
