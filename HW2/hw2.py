@@ -5,7 +5,7 @@
 - Support Vector Machine (SVM) and Decision Tree classifier 
 -  to train the 3 class of Iris plant from Iris dataset which containing 3 classes of 50 instances
 -  (dataset of 4 attributes: 1: sepal length, 2: sepal width, 3: petal length, 4: petal width (all in cm) and 5: class)
-- Author: Jason Hao-Jiun Tu, 
+- Author: Jason Hao-Jiun Tu
 - Date: 2021.11.16
 ===================== PLEASE WRITE HERE =====================
 """
