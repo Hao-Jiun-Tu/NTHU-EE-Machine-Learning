@@ -40,7 +40,6 @@ def load_data(path):
     x = data.values[:, :-1].tolist()
     y = data.values[:,-1].tolist()
     
-    
     return data, x, y 
 
 
@@ -54,7 +53,6 @@ def split_dataset(x, y, testset_portion):
     'sklearn.model_selection.train_test_split'.    
     """
     # ===================== PLEASE WRITE HERE =====================
-    
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= testset_portion, random_state=100)
     
     # ===================== PLEASE WRITE HERE =====================
@@ -100,7 +98,6 @@ def test(clf, x_test):
     
     """
     # ===================== PLEASE WRITE HERE =====================   
-    
     y_pred = clf.predict(x_test)
     
     # ===================== PLEASE WRITE HERE =====================
@@ -115,7 +112,6 @@ def plot_tree(clf, feature_names, labels):
     - you can use sklearn.tree.plot_tree to plot the tree diagram
     """
     # ===================== PLEASE WRITE HERE =====================
-    
     tree.plot_tree(clf, feature_names = feature_names, label = labels[0]  )
     #tree.plot_tree(clf, feature_names = feature_names, label = labels[1]  )
     #tree.plot_tree(clf, feature_names = feature_names, label = labels[2]  )
@@ -147,7 +143,6 @@ def plot_decision_boundary(clf, X, y):
     plt.ylabel("Y", fontsize=14)
     plt.title("Decision Boundary")
 
-    
     # ===================== PLEASE WRITE HERE =====================
 
 
