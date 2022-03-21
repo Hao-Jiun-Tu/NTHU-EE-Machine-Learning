@@ -148,7 +148,6 @@ def PlotCurve2D(x_test, y_test, y_predict):
     for idx, class_name, c, m in zip(labels, class_names, 'rgb', 'sxo'):
         class_idx = np.where(y_test==idx)[0]
         plt1_1.scatter(x_test_pca[class_idx, 0], x_test_pca[class_idx, 1], label=class_name, c=c, marker=m)
-
         
     plt1_1.set_title('Ground Truth')
     plt1_1.set_xlabel('PCA-feature-1')
