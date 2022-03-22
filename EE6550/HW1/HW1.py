@@ -37,17 +37,20 @@ def Preprocessing(data):
     # Split dataset
     print('Split dataset.')
     data_idx = [np.where(data[:,0]==label)[0] for label in range(1, 4)]
-    for class_ in range(3):
-        np.random.shuffle(data_idx[class_])
+    for class_idx in range(3):
+        np.random.shuffle(data_idx[class_idx])
     
+    test_size = np.array([TEST_SIZE/3, TEST_SIZE/3, TEST_SIZE/3]).astype(np.uint8)
+    # test_size = np.array([40, 7, 7]).astype(np.uint8)
+    # print(f'test_size={test_size}')
     train = []
     test = []   
-    for class_ in range(3):
-        for idx in range(len(data_idx[class_])):
-            if idx < TEST_SIZE/3: # 18
-                test.append(data[data_idx[class_][idx]])
+    for class_idx in range(3):
+        for idx in range(len(data_idx[class_idx])):
+            if idx < test_size[class_idx]: # 18 instances for each class
+                test.append(data[data_idx[class_idx][idx]])
             else:
-                train.append(data[data_idx[class_][idx]])
+                train.append(data[data_idx[class_idx][idx]])
 
     # data_in = np.copy(data)
     # np.random.shuffle(data_in)
@@ -68,59 +71,28 @@ def Preprocessing(data):
     pd.DataFrame(test).to_csv("./test.csv", index=False, header=False) # testing data
     pd.DataFrame(train).to_csv("./train.csv", index=False, header=False) # training data
     
-    y_train, x_train = train[:, 0], train[:, 1:]
-    y_test, x_test = test[:, 0], test[:, 1:]
+    y_train, x_train = train[:, 0].astype(np.uint8), train[:, 1:]
+    y_test, x_test = test[:, 0].astype(np.uint8), test[:, 1:]
     
     return x_train, y_train, x_test, y_test
 
-def FeatureOrganize(x_train, y_train):
-    class_num = np.zeros(3)
-    feature_c1 = []
-    feature_c2 = []
-    feature_c3 = []
-    print('Training feature organization.')
-    
-    # Organize features in class ascending order (class1, class2, class3)
-    for i in range(y_train.size):
-        class_ = int(y_train[i])   
-        class_num[class_-1] += 1   
-        if class_==1:
-            feature_c1.append(x_train[i])
-        elif class_==2:
-            feature_c2.append(x_train[i])
-        else:
-            feature_c3.append(x_train[i])
-            
-    feature = [feature_c1, feature_c2, feature_c3]
-    
-    return feature, class_num  
 
-
-def MAP(feature, class_num, x_test, y_test): 
+def MAP(x_train, y_train, x_test, y_test): 
     print('Start MAP implementation.')
+    class_num = np.array([np.where(y_train==label)[0].size for label in range(1, 4)])
     priors = np.array([class_num[i]/np.sum(class_num) for i in range(3)])
     # priors = np.ones(3)*(1/3)
-    # print(priors)
-    
-    feature_c1 = np.array(feature[0]).T
-    feature_c2 = np.array(feature[1]).T
-    feature_c3 = np.array(feature[2]).T
     
     mean = np.zeros((3, 13), np.float64)
     std = np.zeros((3, 13), np.float64)
     
     # Calculate mean & std of 13 features in 3 classes
-    for i in range(3):
-        for j in range(13):
-            if i==0:
-                feature_tmp = feature_c1
-            elif i==1:
-                feature_tmp = feature_c2
-            else:
-                feature_tmp = feature_c3
-            
-            mean[i][j] = np.average(feature_tmp[j])
-            std[i][j] = np.std(feature_tmp[j])
+    idx = 0
+    for class_idx in range(3):
+        data = np.array(x_train[idx:idx+class_num[class_idx]], np.float64)
+        mean[class_idx] = np.average(data, axis=0)
+        std[class_idx] = np.std(data, axis=0)
+        idx += class_num[class_idx]
     
     y_predict = np.ones(y_test.size)*4
     correct = 0
@@ -207,21 +179,18 @@ def PlotCurve3D(x_test, y_test, y_predict):
     plt1_2.legend() 
     plt.savefig('./PCA_3D.png', dpi=300)
     
+    
 if __name__=='__main__':
     # Load data
     data = LoadData('Wine.csv')
 
-    # Preprocessing
+    # Preprocessing (Split dataset into train/test and Save)
     x_train, y_train, x_test, y_test = Preprocessing(data)
     
-    # Training feature organization
-    feature, class_num = FeatureOrganize(x_train, y_train)
-    
     # Maximize A Posteriors to predict in testing data
-    y_predict = MAP(feature, class_num, x_test, y_test)
+    y_predict = MAP(x_train, y_train, x_test, y_test)
 
     # Plot the curves
     PlotCurve2D(x_test, y_test, y_predict)
     PlotCurve3D(x_test, y_test, y_predict)
     
-      
