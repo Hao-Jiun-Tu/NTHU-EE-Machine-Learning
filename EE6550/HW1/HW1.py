@@ -104,7 +104,6 @@ def MAP(x_train, y_train, x_test, y_test):
                 posteriors[class_idx] *= likelihood
 
         y_predict[idx] = np.argmax(posteriors)+1
-        
         if y_test[idx]==y_predict[idx]:
             correct += 1
             
@@ -183,13 +182,10 @@ def PlotCurve3D(x_test, y_test, y_predict):
 if __name__=='__main__':
     # Load data
     data = LoadData('Wine.csv')
-
     # Preprocessing (Split dataset into train/test and Save)
     x_train, y_train, x_test, y_test = Preprocessing(data)
-    
     # Maximize A Posteriors to predict in testing data
     y_predict = MAP(x_train, y_train, x_test, y_test)
-
     # Plot the curves
     PlotCurve2D(x_test, y_test, y_predict)
     PlotCurve3D(x_test, y_test, y_predict)
