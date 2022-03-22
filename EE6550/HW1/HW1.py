@@ -2,6 +2,7 @@
 """
 =============================================================
 - EE655000 Machine Learning HW1
+-------------------------------------------------------------
 - Subject: Maximum A Posterior Estimation
 - Dataset: https://archive.ics.uci.edu/ml/datasets/Wine
 -------------------------------------------------------------
@@ -14,6 +15,7 @@ import random
 import math
 import numpy as np
 import pandas as pd
+import scipy.stats as st
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
@@ -34,18 +36,30 @@ def LoadData(path):
 def Preprocessing(data):
     # Split dataset
     print('Split dataset.')
-    
-    num_seq = [i for i in range(SAMPLES)]
-    test_idx = random.sample(num_seq, TEST_SIZE)
+    data_idx = [np.where(data[:,0]==label)[0] for label in range(1, 4)]
+    for class_ in range(3):
+        np.random.shuffle(data_idx[class_])
     
     train = []
-    test = []
-    for i in range(SAMPLES):
-        if i in test_idx:
-            test.append(data[i])     
-        else:
-            train.append(data[i])
+    test = []   
+    for class_ in range(3):
+        for idx in range(len(data_idx[class_])):
+            if idx < TEST_SIZE/3: # 18
+                test.append(data[data_idx[class_][idx]])
+            else:
+                train.append(data[data_idx[class_][idx]])
+
+    # data_in = np.copy(data)
+    # np.random.shuffle(data_in)
     
+    # train = []
+    # test = []
+    # for i in range(SAMPLES):
+    #     if i < TEST_SIZE:
+    #         test.append(data_in[i])     
+    #     else:
+    #         train.append(data_in[i])
+
     # Save data
     print('Save train/test dataset.')
     train = np.array(train)
@@ -69,7 +83,7 @@ def FeatureOrganize(x_train, y_train):
     # Organize features in class ascending order (class1, class2, class3)
     for i in range(y_train.size):
         class_ = int(y_train[i])   
-        class_num[class_-1] += 1    
+        class_num[class_-1] += 1   
         if class_==1:
             feature_c1.append(x_train[i])
         elif class_==2:
@@ -80,11 +94,6 @@ def FeatureOrganize(x_train, y_train):
     feature = [feature_c1, feature_c2, feature_c3]
     
     return feature, class_num  
-
-
-def Gaussian(mean, std, x):
-    p = 1/(std*math.sqrt(2*math.pi)) * math.exp(-0.5*((x-mean)/std)**2)
-    return p
 
 
 def MAP(feature, class_num, x_test, y_test): 
@@ -119,7 +128,7 @@ def MAP(feature, class_num, x_test, y_test):
         posteriors = np.ones(3, np.float64) * priors
         for class_idx in range(3):
             for feature_idx in range(13):
-                likelihood = Gaussian(mean[class_idx][feature_idx], std[class_idx][feature_idx], data[feature_idx])
+                likelihood = st.norm(mean[class_idx][feature_idx], std[class_idx][feature_idx]).pdf(data[feature_idx])
                 posteriors[class_idx] *= likelihood
 
         y_predict[idx] = np.argmax(posteriors)+1
@@ -148,7 +157,7 @@ def PlotCurve2D(x_test, y_test, y_predict):
     for idx, class_name, c, m in zip(labels, class_names, 'rgb', 'sxo'):
         class_idx = np.where(y_test==idx)[0]
         plt1_1.scatter(x_test_pca[class_idx, 0], x_test_pca[class_idx, 1], label=class_name, c=c, marker=m)
-        
+  
     plt1_1.set_title('Ground Truth')
     plt1_1.set_xlabel('PCA-feature-1')
     plt1_1.set_ylabel('PCA-feature-2')
@@ -214,4 +223,5 @@ if __name__=='__main__':
     # Plot the curves
     PlotCurve2D(x_test, y_test, y_predict)
     PlotCurve3D(x_test, y_test, y_predict)
+    
       
