@@ -25,22 +25,21 @@ TRAIN_SIZE = 124
 
 def LoadData(path):
     print('Loading data...')    
-    data = np.genfromtxt(path, delimiter=',')
-        
-    # Print the number of samples
+    data = np.genfromtxt(path, delimiter=',')       
+    ## Print the number of samples ##
     n_samples = len(data)
     print('Number of samples:', n_samples)
     
     return data 
 
 def Preprocessing(data):
-    # Split dataset
+    ## Split dataset ##
     print('Split dataset.')
     data_idx = [np.where(data[:,0]==label)[0] for label in range(1, 4)]
     for class_idx in range(3):
         np.random.shuffle(data_idx[class_idx])
     
-    test_size = np.array([TEST_SIZE/3, TEST_SIZE/3, TEST_SIZE/3]).astype(np.uint8)
+    test_size = np.ones(3).astype(np.uint8) * (TEST_SIZE//3)
     # test_size = np.array([40, 7, 7]).astype(np.uint8)
     # print(f'test_size={test_size}')
     train = []
@@ -63,19 +62,18 @@ def Preprocessing(data):
     #     else:
     #         train.append(data_in[i])
 
-    # Save data
+    ## Save data ##
     print('Save train/test dataset.')
     train = np.array(train)
     test = np.array(test)
 
-    pd.DataFrame(test).to_csv("./test.csv", index=False, header=False) # testing data
-    pd.DataFrame(train).to_csv("./train.csv", index=False, header=False) # training data
+    pd.DataFrame(test).to_csv("./test.csv", index=False, header=False)
+    pd.DataFrame(train).to_csv("./train.csv", index=False, header=False)
     
     y_train, x_train = train[:, 0].astype(np.uint8), train[:, 1:]
     y_test, x_test = test[:, 0].astype(np.uint8), test[:, 1:]
     
     return x_train, y_train, x_test, y_test
-
 
 def MAP(x_train, y_train, x_test, y_test): 
     print('Start MAP implementation.')
@@ -83,10 +81,9 @@ def MAP(x_train, y_train, x_test, y_test):
     priors = np.array([class_num[i]/np.sum(class_num) for i in range(3)])
     # priors = np.ones(3)*(1/3)
     
+    ## Calculate mean & std of 13 features in 3 classes ##   
     mean = np.zeros((3, 13), np.float64)
     std = np.zeros((3, 13), np.float64)
-    
-    # Calculate mean & std of 13 features in 3 classes
     idx = 0
     for class_idx in range(3):
         data = np.array(x_train[idx:idx+class_num[class_idx]], np.float64)
@@ -94,6 +91,15 @@ def MAP(x_train, y_train, x_test, y_test):
         std[class_idx] = np.std(data, axis=0)
         idx += class_num[class_idx]
     
+    ## Calculate the posterior ##
+    # ------------------------------------------------------------------------------------------------------
+    # P(c|x) = P(x|c)*P(c)/P(x) (posterior ∝ likelihood*prior)
+    # ------------------------------------------------------------------------------------------------------
+    # likelihood = the prodoct of the probability of all features given a class (since independent features)
+    #            = P(x1|c)*P(x2|c)*...*P(x13|c)
+    # ------------------------------------------------------------------------------------------------------
+    # posterior = (P(x1|c)*P(x2|c)*...*P(x13|c)) * P(c) 
+    # ------------------------------------------------------------------------------------------------------
     y_predict = np.ones(y_test.size)*4
     correct = 0
     for idx, data in enumerate(x_test):
@@ -107,15 +113,13 @@ def MAP(x_train, y_train, x_test, y_test):
         if y_test[idx]==y_predict[idx]:
             correct += 1
             
-    accuracy = correct/np.size(y_test)
+    accuracy = correct/y_test.size
     print('------------------------------')
     print(f'Accuracy={accuracy}')
     
     return y_predict
 
-
 def PlotCurve2D(x_test, y_test, y_predict):
-    # Split the label and the features from testing data
     pca = PCA(n_components=2)
     x_test_pca = pca.fit_transform(x_test)
     class_names = ['class1', 'class2', 'class3']
@@ -124,30 +128,28 @@ def PlotCurve2D(x_test, y_test, y_predict):
     plt1_1 = fig.add_subplot(121)
     plt1_2 = fig.add_subplot(122)
     
-    # Ground Truth
+    ## Ground Truth ##
     for idx, class_name, c, m in zip(labels, class_names, 'rgb', 'sxo'):
         class_idx = np.where(y_test==idx)[0]
         plt1_1.scatter(x_test_pca[class_idx, 0], x_test_pca[class_idx, 1], label=class_name, c=c, marker=m)
   
     plt1_1.set_title('Ground Truth')
-    plt1_1.set_xlabel('PCA-feature-1')
-    plt1_1.set_ylabel('PCA-feature-2')
+    plt1_1.set_xlabel('PCA feature1')
+    plt1_1.set_ylabel('PCA feature2')
     plt1_1.legend()
     
-    # Predict
+    ## Predict ##
     for idx, class_name, c, m in zip(labels, class_names, 'rgb', 'sxo'):
         class_idx = np.where(y_predict==idx)[0]
         plt1_2.scatter(x_test_pca[class_idx, 0], x_test_pca[class_idx, 1], label=class_name, c=c, marker=m)
 
     plt1_2.set_title('Predict')
-    plt1_2.set_xlabel('PCA-feature-1')
-    plt1_2.set_ylabel('PCA-feature-2')
+    plt1_2.set_xlabel('PCA feature1')
+    plt1_2.set_ylabel('PCA feature2')
     plt1_2.legend() 
-    plt.savefig('./PCA_2D.png', dpi=300)
+    plt.savefig('./PCA_2D.png', dpi=100)
   
-    
 def PlotCurve3D(x_test, y_test, y_predict):
-    # Split the label and the features from testing data
     pca = PCA(n_components=3)
     x_test_pca = pca.fit_transform(x_test)
     class_names = ['class1', 'class2', 'class3']
@@ -156,37 +158,37 @@ def PlotCurve3D(x_test, y_test, y_predict):
     plt1_1 = fig.add_subplot(121, projection='3d')
     plt1_2 = fig.add_subplot(122, projection='3d')
     
-    # Ground Truth
+    ## Ground Truth ##
     for idx, class_name, c, m in zip(labels, class_names, 'rgb', 'sxo'):
         class_idx = np.where(y_test==idx)[0]
         plt1_1.scatter(x_test_pca[class_idx, 0], x_test_pca[class_idx, 1], x_test_pca[class_idx, 2], label=class_name, c=c, marker=m)
             
     plt1_1.set_title('Ground Truth')
-    plt1_1.set_xlabel('PCA-feature-1')
-    plt1_1.set_ylabel('PCA-feature-2')
+    plt1_1.set_xlabel('PCA feature1')
+    plt1_1.set_ylabel('PCA feature2')
+    plt1_1.set_zlabel('PCA feature3')
     plt1_1.legend()
     
-    # Predict
+    ## Predict ##
     for idx, class_name, c, m in zip(labels, class_names, 'rgb', 'sxo'):
         class_idx = np.where(y_predict==idx)[0]
         plt1_2.scatter(x_test_pca[class_idx, 0], x_test_pca[class_idx, 1], x_test_pca[class_idx, 2], label=class_name, c=c, marker=m)
     
     plt1_2.set_title('Predict')
-    plt1_2.set_xlabel('PCA-feature-1')
-    plt1_2.set_ylabel('PCA-feature-2')
-    plt1_2.set_zlabel('PCA-feature-3')
+    plt1_2.set_xlabel('PCA feature1')
+    plt1_2.set_ylabel('PCA feature2')
+    plt1_2.set_zlabel('PCA feature3')
     plt1_2.legend() 
-    plt.savefig('./PCA_3D.png', dpi=300)
-    
+    plt.savefig('./PCA_3D.png', dpi=100)  
     
 if __name__=='__main__':
-    # Load data
+    ## Load data ##
     data = LoadData('Wine.csv')
-    # Preprocessing (Split dataset into train/test and Save)
+    ## Preprocessing (Split dataset into train/test and Save) ##
     x_train, y_train, x_test, y_test = Preprocessing(data)
-    # Maximize A Posteriors to predict in testing data
+    ## Maximize A Posteriors to predict in testing data ##
     y_predict = MAP(x_train, y_train, x_test, y_test)
-    # Plot the curves
+    ## Plot the curves ##
     PlotCurve2D(x_test, y_test, y_predict)
     PlotCurve3D(x_test, y_test, y_predict)
     
