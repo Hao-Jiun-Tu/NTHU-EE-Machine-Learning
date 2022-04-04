@@ -7,7 +7,7 @@
 - Dataset: https://archive.ics.uci.edu/ml/datasets/Wine
 -------------------------------------------------------------
 - Author: Jason Hao-Jiun Tu
-- Date: 2022.03.21
+- Date: 2022.03.24
 =============================================================
 """
 # Import libraries
@@ -33,15 +33,17 @@ def LoadData(path):
     return data 
 
 def Preprocessing(data):
-    ## Split dataset ##
     print('Split dataset.')
+    ## Shuffle data ## 
     data_idx = [np.where(data[:,0]==label)[0] for label in range(1, 4)]
     for class_idx in range(3):
         np.random.shuffle(data_idx[class_idx])
     
     test_size = np.ones(3).astype(np.uint8) * (TEST_SIZE//3)
-    # test_size = np.array([40, 7, 7]).astype(np.uint8)
+    # test_size = np.array([18, 32, 4]).astype(np.uint8)
     # print(f'test_size={test_size}')
+    
+    ## Split dataset ##
     train = []
     test = []   
     for class_idx in range(3):
@@ -50,17 +52,6 @@ def Preprocessing(data):
                 test.append(data[data_idx[class_idx][idx]])
             else:
                 train.append(data[data_idx[class_idx][idx]])
-
-    # data_in = np.copy(data)
-    # np.random.shuffle(data_in)
-    
-    # train = []
-    # test = []
-    # for i in range(SAMPLES):
-    #     if i < TEST_SIZE:
-    #         test.append(data_in[i])     
-    #     else:
-    #         train.append(data_in[i])
 
     ## Save data ##
     print('Save train/test dataset.')
@@ -105,7 +96,7 @@ def MAP(x_train, y_train, x_test, y_test):
     for idx, data in enumerate(x_test):
         posteriors = np.ones(3, np.float64) * priors
         for class_idx in range(3):
-            for feature_idx in range(13):
+            for feature_idx in range(1):
                 likelihood = st.norm(mean[class_idx][feature_idx], std[class_idx][feature_idx]).pdf(data[feature_idx])
                 posteriors[class_idx] *= likelihood
 
