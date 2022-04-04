@@ -96,7 +96,7 @@ def MAP(x_train, y_train, x_test, y_test):
     for idx, data in enumerate(x_test):
         posteriors = np.ones(3, np.float64) * priors
         for class_idx in range(3):
-            for feature_idx in range(1):
+            for feature_idx in range(13):
                 likelihood = st.norm(mean[class_idx][feature_idx], std[class_idx][feature_idx]).pdf(data[feature_idx])
                 posteriors[class_idx] *= likelihood
 
