@@ -20,7 +20,7 @@
 - HW1 (20%) : Maximum A Posterior Estimation
 - HW2 (20%) : Maximum Likelihood & Bayesian Linear Regression
 - HW3 (20%) : Handcraft 2-/3-layer Neural Network
-- Final Project (40%) : Marathon Route Prediction on [AIdea][1]
+- Final Project (40%) : [Marathon Route Prediction on AIdea][1]
 
 ## Notes
 This course is not proper to take when you're a graduate student. Some details are inconvenient to talk here. If you want to know, you can ask me in private : ) .
