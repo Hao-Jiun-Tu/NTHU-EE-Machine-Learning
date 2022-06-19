@@ -1,9 +1,9 @@
-# NTHU EE Machine Learning
-There two machine learning classes in this repository:
-- EE3700 (undergraduate course)
-- EE6550 (graduate course)
+# NTHU EE Machine Learning Courses
+There two machine learning courses in this repository:
+- EE3700 (undergraduate)
+- EE6550 (graduate)
 
-## EE3700
+## EE3700 :fu:
 ### Cource Informations
 - Course Title : Introduction to Machine Learning
 - Instructor : Prof. Chi-Chun Lee (Jeremy)
@@ -12,7 +12,7 @@ There two machine learning classes in this repository:
 ### Howeworks (39%)
 - HW1 (13%) : Gaussian Naive Bayes Classifier
 - HW2 (13%) : Support Vector Machine (SVM) and Decision Tree Classifier
-- HW3 (13%) : Multilayer Perceptron (MLP)
+- HW3 (13%) : Multilayer Perceptron (MLP) 
 
 ## EE6550
 ### Cource Informations
