@@ -1,6 +1,6 @@
 # Machine Learning
 ## Cource Informations
-- Course Number : EE-6500
+- Course Number : EE-6550
 - Course Title : Machine Learning
 - Instructor : Prof. Chia-Wen Lin
 - Year : 2022 Spring
