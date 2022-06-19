@@ -10,10 +10,10 @@ There two machine learning classes in this repository:
 - Instructor : Prof. Chi-Chun Lee (Jeremy)
 - Year : 2021 Fall
 
-### Howeworks
-- HW1: Gaussian Naive Bayes Classifier
-- HW2: Support Vector Machine (SVM) and Decision Tree Classifier
-- HW3: Multilayer Perceptron (MLP)
+### Howeworks (39%)
+- HW1 (13%) : Gaussian Naive Bayes Classifier
+- HW2 (13%) : Support Vector Machine (SVM) and Decision Tree Classifier
+- HW3 (13%) : Multilayer Perceptron (MLP)
 
 ## EE6550
 ### Cource Informations
@@ -22,10 +22,10 @@ There two machine learning classes in this repository:
 - Instructor : Prof. Chia-Wen Lin
 - Year : 2022 Spring
 
-### Howeworks
-- HW1: Maximum A Posterior Estimation
-- HW2: Maximum Likelihood & Bayesian Linear Regression
-- HW3: Handcraft 2-/3-layer Neural Network
-- Final Project: Marathon Route Prediction on [AIdea][1]
+### Howeworks & Projects (100%)
+- HW1 (20%) : Maximum A Posterior Estimation
+- HW2 (20%) : Maximum Likelihood & Bayesian Linear Regression
+- HW3 (20%) : Handcraft 2-/3-layer Neural Network
+- Final Project (40%) : Marathon Route Prediction on [AIdea][1]
 
 [1]:https://aidea-web.tw/topic/107d9eb3-5a37-4303-9e60-11bebef82f51
