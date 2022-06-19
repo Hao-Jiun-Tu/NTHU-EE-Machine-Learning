@@ -17,7 +17,7 @@ There two machine learning courses in this repository:
 ## EE6550
 ### Cource Informations
 - Course Title : Machine Learning
-- Instructor : Prof. Chia-Wen Lin :confused:
+- Instructor : Prof. Chia-Wen Lin
 - Year : 2022 Spring
 
 ### Howeworks & Projects (100%)
