@@ -28,4 +28,7 @@ There two machine learning classes in this repository:
 - HW3 (20%) : Handcraft 2-/3-layer Neural Network
 - Final Project (40%) : Marathon Route Prediction on [AIdea][1]
 
+## Notes
+The course "EE6550" is not proper to take when you're a graduate student. Some details are inconvenient to talk here. If you want to know, you can ask me in private : ) .
+
 [1]:https://aidea-web.tw/topic/107d9eb3-5a37-4303-9e60-11bebef82f51
