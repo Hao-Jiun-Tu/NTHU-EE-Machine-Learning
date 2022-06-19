@@ -3,10 +3,10 @@ There two machine learning courses in this repository:
 - EE3700 (undergraduate)
 - EE6550 (graduate)
 
-## EE3700 :fu:
+## EE3700
 ### Cource Informations
 - Course Title : Introduction to Machine Learning
-- Instructor : Prof. Chi-Chun Lee (Jeremy)
+- Instructor : Prof. Chi-Chun Lee (Jeremy) :+1:
 - Year : 2021 Fall
 
 ### Howeworks (39%)
@@ -17,7 +17,7 @@ There two machine learning courses in this repository:
 ## EE6550
 ### Cource Informations
 - Course Title : Machine Learning
-- Instructor : Prof. Chia-Wen Lin
+- Instructor : Prof. Chia-Wen Lin :confused:
 - Year : 2022 Spring
 
 ### Howeworks & Projects (100%)
