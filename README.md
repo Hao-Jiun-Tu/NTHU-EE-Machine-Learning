@@ -5,7 +5,6 @@ There two machine learning classes in this repository:
 
 ## EE3700
 ### Cource Informations
-- Cource Number : EE-3700
 - Course Title : Introduction to Machine Learning
 - Instructor : Prof. Chi-Chun Lee (Jeremy)
 - Year : 2021 Fall
@@ -17,7 +16,6 @@ There two machine learning classes in this repository:
 
 ## EE6550
 ### Cource Informations
-- Cource Number : EE-6550
 - Course Title : Machine Learning
 - Instructor : Prof. Chia-Wen Lin
 - Year : 2022 Spring
